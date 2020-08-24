@@ -12,6 +12,7 @@ const expressLayouts = require("express-ejs-layouts");
 
 // This allows us to find the index route
 const indexRouter = require("./routes/index");
+const authorRouter = require("./routes/authors");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -22,10 +23,9 @@ app.use(express.static("public"));
 
 const mongoose = require("mongoose");
 
-
 mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
@@ -35,5 +35,6 @@ db.once("open", () => console.log("connected to mongoose"));
 
 // the first parameter is the root of our app and the second is the router that is handling that route.
 app.use("/", indexRouter);
+app.use("/authors", authorRouter);
 
 app.listen(process.env.PORT || 3000);
